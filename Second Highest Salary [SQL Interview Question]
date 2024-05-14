@@ -1,0 +1,32 @@
+Imagine you're an HR analyst at a tech company tasked with analyzing employee salaries. Your manager is keen on understanding the pay distribution and asks you to determine the second highest salary among all employees.
+
+It's possible that multiple employees may share the same second highest salary. In case of duplicate, display the salary only once.
+
+employees Schema:
+column_name	type	description
+employee_id	integer	The unique ID of the employee.
+salary	integer	The salary of the employee.
+employees Example Input:
+employee_id	salary
+1	2500
+2	800
+3	1000
+Example Output:
+second_highest_salary
+1000
+The output represents the second highest salary among all employees. In this case, the second highest salary is $1,000.
+
+The dataset you are querying against may have different input & output - this is just an example!
+
+*** SOLUTION ***
+
+WITH CTE AS (
+  SELECT *,
+  RANK()OVER( ORDER BY salary DESC) as rnk
+  FROM employees
+  ORDER BY salary DESC)
+  
+
+SELECT salary AS second_highest_salary
+FROM CTE 
+WHERE rnk =2;
